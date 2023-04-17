@@ -10,8 +10,8 @@ connection = psycopg2.connect(
 cursor = connection.cursor()
 
 alter_table_command = """
-ALTER TABLE "Update Table Results"
-ADD COLUMN new_column text;
+ALTER TABLE "users"
+ADD COLUMN password VARCHAR;
 """
 
 cursor.execute(alter_table_command)
