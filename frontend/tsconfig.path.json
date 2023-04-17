@@ -7,6 +7,30 @@
             ],
             "@store/*": [
                 "./store/*"
+            ],
+            "@components/*":[
+                "./components/*"
+            ],
+            "@constants/*":[
+                "./constants/*"
+            ],
+            "@pages/*":[
+                "./pages/*"
+            ],
+            "@assets/*":[
+                "./assets/*"
+            ],
+            "@config/*":[
+                "./config/*"
+            ],
+            "@models/*":[
+                "./models/*"
+            ],
+            "@services/*":[
+                "./services/*"
+            ],
+            "@utils/*":[
+                "./utils/*"
             ]
         }
     }
