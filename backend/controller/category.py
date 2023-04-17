@@ -1,9 +1,11 @@
 from flask import request, abort
 from server import app, db
+from flask_cors import cross_origin
 
 from models.categories import Category
 
 @app.route("/admin/v1/products/category", methods=["POST", "GET"])
+@cross_origin()
 def create_category():
     if request.method == "POST":
         body = request.get_json()
@@ -36,6 +38,7 @@ def create_category():
         return response
     
 @app.route("/admin/v1/products/category/<string:id>", methods=["DELETE"])
+@cross_origin()
 def delete(id):
     category = Category.query.filter_by(id = id).first()
     if category is None:

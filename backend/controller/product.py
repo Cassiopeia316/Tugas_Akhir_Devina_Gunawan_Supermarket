@@ -3,12 +3,14 @@ from server import app, db
 from models.categories import Category
 from models.shelf_locations import ShelfLocation
 from models.products import Product
+from flask_cors import cross_origin
 
 import imgkit
 import sys
 import cv2
 
 @app.route("/admin/v1/products", methods=["POST", "GET"])
+@cross_origin()
 def create_product():
     if request.method == "POST":
         body = request.get_json()
@@ -109,6 +111,7 @@ def create_product():
 
 
 @app.route("/admin/v1/products/<string:id>", methods=["PUT", "DELETE"])
+@cross_origin()
 def update(id):
     product = Product.query.filter_by(id = id).first()
     if product is None:
