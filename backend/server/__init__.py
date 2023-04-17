@@ -1,10 +1,15 @@
-from flask import Flask, request
+from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
 from jinja2 import Template
 import imgkit
+
+from flask_bcrypt import Bcrypt
+from functools import wraps
+import jwt
 
 DIR = os.getcwd()
 JINJA_TEMPLATE_STRING = open("newtemplate.html", 'r').read()
@@ -21,10 +26,31 @@ app.config['IMGKIT_CONFIG'] = {
   "width": os.getenv('LCD_WIDTH'),
   "height": os.getenv('LCD_HEIGHT')
 }
+app.config['SECRET_KEY'] = 'nxP0ym7rTGHJ4WguR8rh' #untuk decrypt JWT token
 
 db = SQLAlchemy(app)
+cors = CORS(app)
+bcrypt = Bcrypt(app)
 # from models import price #bisa juga models.name
 # from models import product
+
+def token_required(f):
+    @wraps(f)
+    def decorator(args, **kwargs):
+        token = None
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+            token = token.split(" ")[1]
+
+        if not token:
+            return jsonify({'message': 'a valid token is missing'})
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+        except:
+            return jsonify({'message': 'token is invalid'})
+
+        return f(data,args, **kwargs)
+    return decorator
 
 import models
 
