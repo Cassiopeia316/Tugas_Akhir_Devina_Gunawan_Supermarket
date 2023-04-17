@@ -7,12 +7,14 @@ import { Provider } from 'react-redux'
 import store from '@store';
 import 'react-toastify/dist/ReactToastify.css';
 import { AdminEndpoint } from './AdminEndpoint';
+import { PublicEndpoint } from './PublicEndpoint';
 
 const App: React.FC = () => {
 	return (
 		<Provider store={store}>
 			<Router>
 				<AdminEndpoint />
+				<PublicEndpoint/>
 				<GlobalStyle />
 			</Router>
 		</Provider>
