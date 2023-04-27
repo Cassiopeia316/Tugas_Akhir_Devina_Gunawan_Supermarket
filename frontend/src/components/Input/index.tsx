@@ -3,24 +3,26 @@ import { InputField, Label, Wrapper } from './Input.styles'
 
 interface InputParams {
     type: string
+    name: string
     topic: string
     placeholder?: string
-    // value: string | number
-    // onChange: (e: Event) => void
+    value: string | number
+    onChange: (e: Event) => void
     [x: string]: any
 }
 
 
-const Input: React.FC<InputParams> = ({ type, topic, placeholder, value, ...additionalProps }) => {
+const Input: React.FC<InputParams> = ({ type, topic, name, placeholder, value, onChange, ...additionalProps }) => {
     return (
         <Wrapper>
             <Label> {topic} </Label>
             <InputField 
                 type={type}
+                name={name}
                 id={topic}
                 placeholder={placeholder}
                 value={value}
-                // onChange={onChange}
+                onChange={onChange}
                 {...additionalProps}
             />
         </Wrapper>
