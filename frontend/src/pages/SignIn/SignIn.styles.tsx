@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Button from "@components/Button";
+import { Button } from 'react-bootstrap';
 
 export const Wrapper = styled(Form)`
     background-color: rgba(0, 0, 0, 0.5);
