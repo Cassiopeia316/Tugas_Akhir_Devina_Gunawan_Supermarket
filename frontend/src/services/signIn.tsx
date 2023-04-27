@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import api from "@config/config"
-import endpoints from "@constants/endpoints/admin"
+import { endpoints } from "@constants/endpoint"
 import { statusActions } from "@store/status"
 import handleError from "./errorHandling"
 
@@ -10,11 +10,11 @@ export interface SignInRequest {
 }
 
 export interface SignInResponse {
-    apiToken: string
+    token: string
     name: string
-    id: string
-    email: string
-    isAdmin: boolean
+    // id: string
+    // email: string
+    // isAdmin: boolean
 }
 
 export const signInService = createAsyncThunk(
