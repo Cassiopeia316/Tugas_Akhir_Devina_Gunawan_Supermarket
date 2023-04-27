@@ -16,7 +16,8 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
+        /* font-family: 'Inter', sans-serif; */
+        font-family: 'Poppins', sans-serif;
     }
     body{
         width: 100vw;
