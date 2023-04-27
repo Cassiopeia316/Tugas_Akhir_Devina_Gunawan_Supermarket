@@ -6,15 +6,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux'
 import store from '@store';
 import 'react-toastify/dist/ReactToastify.css';
-import { AdminEndpoint } from './AdminEndpoint';
-import { PublicEndpoint } from './PublicEndpoint';
+import { Endpoint } from './Endpoint';
 
 const App: React.FC = () => {
 	return (
 		<Provider store={store}>
 			<Router>
-				<AdminEndpoint />
-				<PublicEndpoint/>
+				<Endpoint/>
 				<GlobalStyle />
 			</Router>
 		</Provider>
