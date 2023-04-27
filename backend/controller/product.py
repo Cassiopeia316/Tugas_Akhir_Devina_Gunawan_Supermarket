@@ -9,7 +9,7 @@ import imgkit
 import sys
 import cv2
 
-@app.route("/admin/v1/products", methods=["POST", "GET"])
+@app.route("/v1/products", methods=["POST", "GET"])
 @cross_origin()
 def create_product():
     if request.method == "POST":
@@ -35,6 +35,7 @@ def create_product():
         stock = body["stock"]
         # SELECT * FROM CATEGORIES WHERE ID = category_id
 
+
         product = Product(
             code = Product.generate_code(),
             name = name, 
@@ -56,14 +57,16 @@ def create_product():
         print(grayimg.shape)
 
         return {
-            "id" : product.id,
-            "code" : product.code,
-            "name" : product.name,
-            "description" : product.description,
-            "category_id" : product.category_id, 
-            "shelf_location_id" : product.shelf_location_id,
-            "price" : product.price,
-            "stock" : product.stock
+            "data": {
+                "id" : product.id,
+                "code" : product.code,
+                "name" : product.name,
+                "description" : product.description,
+                "category_id" : product.category_id, 
+                "shelf_location_id" : product.shelf_location_id,
+                "price" : product.price,
+                "stock" : product.stock,
+            },
         }
     
     # name
@@ -73,7 +76,7 @@ def create_product():
         args = request.args
 
         # service (yg bawah) ---------------------------
-        query = Product.query
+        query = Product.query.join(Category).join(ShelfLocation, isouter=True)
         
         name = ""
         if args.get("name") is not None:
@@ -87,22 +90,47 @@ def create_product():
 
         limit = 10
         if args.get("limit") is not None:
-            limit = args.get("limit")
+            limit = int(args.get("limit"))
 
         # 0 itu first page 
         offset = 0
         if args.get("offset") is not None:
-            offset = args.get("offset")
+            offset = int(args.get("offset"))
 
-        productList = query.limit(limit).offset(offset * limit).all()
+        # productList = query.order_by(Product.created_at).limit(limit).offset((offset - 1) * limit)
+        productList = query.order_by(Product.created_at).paginate(page=offset, per_page=limit, error_out=False)
         # serializer (yg bawah) ------------------------
-        response = []
+        response = {
+            "data": [],
+            "hasPrevPage": productList.has_prev,
+            "hasNextPage": productList.has_next,
+        }
         for product in productList:
-            response.append({
+            # category = getattr(product, "category", None)
+            # print(getattr(category, 'subcategory', None))
+            response["data"].append({
                 "code" : product.code,
                 "name" : product.name,
                 "description" : product.description,
-                "category_id" : product.category_id, 
+
+                # ini 1
+                # "category_id" : product.category_id,
+                # "category_name": product.category.name,
+
+                # ini 2
+                "category": {
+                    "id": product.category.id,
+                    "name":  product.category.name,
+                },
+                "shelf": {
+                    "id" : product.shelf_location_id,
+                    # "code" : product.shelf_location.code,
+                    "floor" : product.shelf_location.floor,
+                    "aisle" : product.shelf_location.aisle,
+                    "position" : product.shelf_location.position.value,
+                    # "row" : product.shelf_location.row,
+                    # "column" : product.shelf_location.column
+                },
                 "shelf_location_id" : product.shelf_location_id,
                 "price" : product.price,
                 "stock" : product.stock

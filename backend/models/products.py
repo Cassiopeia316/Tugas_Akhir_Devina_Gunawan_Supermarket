@@ -2,6 +2,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 import random  
 import string
+from datetime import datetime
 
 from server import db
 from models.categories import Category
@@ -14,10 +15,13 @@ class Product(db.Model):
     code = db.Column(db.String)
     name = db.Column(db.String)
     description = db.Column(db.Text)
+    category = db.relationship("Category")
     category_id = db.Column(UUID(as_uuid=True), db.ForeignKey(Category.id))
+    shelf_location = db.relationship("ShelfLocation")
     shelf_location_id = db.Column(UUID(as_uuid=True), db.ForeignKey(ShelfLocation.id))
     price = db.Column(db.Integer)
     stock = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
 
     def __init__(self, code, name, description, category_id, shelf_location_id, price, stock):
