@@ -14,7 +14,7 @@ const SidebarAdmin: React.FC = () => {
                     <i className="fa-solid fa-border-all"></i>
                     <p>Category</p>
                 </Menu>
-                <Menu to={adminRoutes.SHELF_LOCATION_ADMIN_PAGE}>
+                <Menu to={adminRoutes.EPAPER_LOCATION_ADMIN_PAGE}>
                     <i className="fa-solid fa-box"></i>
                     <p>E-label</p>
                 </Menu>

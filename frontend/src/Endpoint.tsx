@@ -9,10 +9,10 @@ import BuyerProductList from '@pages/BuyerProductList'
 import AdminAddProduct from '@pages/AdminAddProduct'
 import AdminCategoryList from '@pages/AdminCategoryList'
 import AdminAddCategory from '@pages/AdminAddCategory'
-import AdminShelfLocationList from '@pages/AdminShelfLocationList'
 import AdminAddPromo from '@pages/AdminAddPromo'
 import AdminProductDetail from '@pages/AdminProductDetail'
 import AdminEditProduct from '@pages/AdminEditProduct'
+import AdminEpaperLocationList from '@pages/AdminEpaperLocationList'
 
 export const Endpoint = () => {
     return (
@@ -25,7 +25,7 @@ export const Endpoint = () => {
                 <Route path={adminRoutes.ADD_PRODUCT_ADMIN_PAGE} element={<AdminAddProduct />}/>
                 <Route path={adminRoutes.CATEGORY_LIST_ADMIN_PAGE} element={<AdminCategoryList />}/>
                 <Route path={adminRoutes.ADD_CATEGORY_ADMIN_PAGE} element={<AdminAddCategory />}/>
-                <Route path={adminRoutes.SHELF_LOCATION_ADMIN_PAGE} element={<AdminShelfLocationList />}/>
+                <Route path={adminRoutes.EPAPER_LOCATION_ADMIN_PAGE} element={<AdminEpaperLocationList />}/>
                 <Route path={adminRoutes.ADD_PROMO_ADMIN_PAGE} element={<AdminAddPromo />}/>
                 <Route path={adminRoutes.PRODUCT_DETAIL_ADMIN_PAGE} element={<AdminProductDetail />}/>
                 <Route path={adminRoutes.EDIT_PRODUCT_ADMIN_PAGE} element={<AdminEditProduct />}/>
