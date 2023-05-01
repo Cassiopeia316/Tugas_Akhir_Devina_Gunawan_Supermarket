@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 
 from models.categories import Category
 
-@app.route("/admin/v1/products/category", methods=["POST", "GET"])
+@app.route("/v1/products/category", methods=["POST", "GET"])
 @cross_origin()
 def create_category():
     if request.method == "POST":
@@ -29,9 +29,12 @@ def create_category():
         query = Category.query.all()
 
         # serializer (yg bawah) ------------------------
-        response = []
+        # response = []
+        response = {
+            "data": []
+        }
         for category in query:
-            response.append({
+            response["data"].append({
                 "id": category.id,
                 "name": category.name,
             })

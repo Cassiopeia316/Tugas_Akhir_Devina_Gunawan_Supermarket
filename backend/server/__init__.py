@@ -2,6 +2,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from dotenv import load_dotenv
+from mqtt import connect_mqtt
 import os
 
 from jinja2 import Template
@@ -17,14 +18,16 @@ JINJA_TEMPLATE_STRING = open("newtemplate.html", 'r').read()
 load_dotenv()
 
 app = Flask(__name__)
+app.config['MQTT_TOPIC'] = "supermarket"
+app.config['MQTT_CLIENT'] = connect_mqtt()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') #DATABASE_URI akan dipakai di SQLALCHEMY, buat ngambil yang ada di env pake os.getenv
 app.config['SERVICE_TEMPLATE'] = Template(JINJA_TEMPLATE_STRING)
 app.config['IMAGE_CONFIG'] = imgkit.config(wkhtmltoimage=DIR + '/wkhtmltopdf/bin/wkhtmltoimage.exe')
 app.config['IMGKIT_CONFIG'] = {
   'quiet': '',
-  "width": os.getenv('LCD_WIDTH'),
-  "height": os.getenv('LCD_HEIGHT')
+  "width": 296,
+  "height": 128,
 }
 app.config['SECRET_KEY'] = 'nxP0ym7rTGHJ4WguR8rh' #untuk decrypt JWT token
 
