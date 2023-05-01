@@ -13,6 +13,7 @@ export const Wrapper = styled(Navbar)`
     height: 75px;
     width: 100vw;
     background-color: white;
+    z-index: 10;
 `
 
 export const Logo = styled(Link)`
