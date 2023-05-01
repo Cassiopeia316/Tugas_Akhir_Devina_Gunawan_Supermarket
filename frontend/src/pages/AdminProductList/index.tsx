@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { Content, SearchProduct, Title, Wrapper, FilterCategory, CategoryButton, AddProduct, PaginationAndAddProduct } from '@pages/AdminProductList/AdminProductList.styles'
+import { Content, SearchProduct, Title, Wrapper, Action, FilterCategory, CategoryButton, AddProduct, PaginationAndAddProduct, CategoryScroll, ViewDetailsandAddPromo } from '@pages/AdminProductList/AdminProductList.styles'
 import Table from 'react-bootstrap/Table';
 import Searchbar from '@components/Searchbar';
 import { GetProductListService, Response } from '@services/Product/list';
 import { useAppDispatch } from '@store';
 import { statusActions } from '@store/status';
-import { adminRoutes, routes } from '@constants/route';
+import { adminRoutes } from '@constants/route';
 import Paginate from '@components/Paginate';
+import { CategoryResponse, GetCategoryListService } from '@services/Category/list';
+import { generatePath } from 'react-router-dom';
 
 const AdminProductList: React.FC = () => {
-    const LIMIT = 3
+    const LIMIT = 10
     const [listProduct, setlistProduct] = useState<Response>({
         data: [],
         hasPrevPage : false,
         hasNextPage : false,
     })
     
+    const [categoryId, setCategoryId] = useState("")
     const [currentPage, setCurrentPage] = useState(1)
 
     const dispatch = useAppDispatch()
@@ -23,19 +26,37 @@ const AdminProductList: React.FC = () => {
         const fetchData = async () =>{
             try{
                 const request = {
+                    category_id: categoryId,
                     offset: currentPage,
                     limit: LIMIT,
                 }
-                const res = await dispatch(GetProductListService(request)).unwrap() // [....]
-                // console.log(res)
+                const res = await dispatch(GetProductListService(request)).unwrap() 
                 if (res) setlistProduct(res)
-                // console.log(res)
             } catch(err) {
                 dispatch(statusActions.setError((err as Error).message))
             }
         }
        fetchData()
-    }, [dispatch, currentPage, LIMIT])
+    }, [dispatch, categoryId, currentPage, LIMIT])
+
+    const [listCategory, setlistCategory] = useState<CategoryResponse>({
+        data: []
+    })
+
+    useEffect(() => {
+        const fetchData = async () =>{
+            try{
+                const res = await dispatch(GetCategoryListService()).unwrap()
+                if (res) setlistCategory(res)
+            } catch(err) {
+                dispatch(statusActions.setError((err as Error).message))
+            }
+        }
+       fetchData()
+    }, [dispatch])
+    const onClick = () => {
+        location.reload();
+    }
     return (
         <Wrapper>  
             <Title>PRODUCT LIST</Title>
@@ -45,8 +66,14 @@ const AdminProductList: React.FC = () => {
                 </SearchProduct>
                 <FilterCategory>
                     <p >Category : &nbsp; &nbsp;</p>
-                    <CategoryButton type="button">All</CategoryButton>
-                    <CategoryButton type="button">Can or Jar</CategoryButton>
+                    <CategoryScroll>
+                        <CategoryButton onClick={onClick}>All</CategoryButton>
+                        {
+                            listCategory.data.map((data, index) => (
+                                <CategoryButton key={index} onClick={() => setCategoryId(data.id)}>{data.name}</CategoryButton>
+                            ))
+                        }
+                    </CategoryScroll>
                 </FilterCategory>
             <Content>
                 <Table striped bordered hover>
@@ -71,14 +98,18 @@ const AdminProductList: React.FC = () => {
                                     <td>{data.price}</td>
                                     <td>floor = {data.shelf.floor}, aisle = {data.shelf.aisle}, position = {data.shelf.position}</td>
                                     <td>{data.stock}</td>
-                                    <td><i className="fa-solid fa-magnifying-glass"></i> &nbsp; <i className="fa-solid fa-tag"></i></td>
+                                    <td>
+                                        <Action>
+                                            <ViewDetailsandAddPromo to={generatePath(adminRoutes.PRODUCT_DETAIL_ADMIN_PAGE, { productId: data.id })}><i className="fa-solid fa-magnifying-glass"></i> </ViewDetailsandAddPromo> 
+                                            <ViewDetailsandAddPromo to={generatePath(adminRoutes.ADD_PROMO_ADMIN_PAGE, { productId: data.id })} ><i className="fa-solid fa-tag"></i></ViewDetailsandAddPromo>
+                                        </Action>
+                                    </td>
                                 </tr> 
                             ))
                         }
                     </tbody>
                 </Table>
             </Content>
-            
             <PaginationAndAddProduct>
                 <Paginate currentPage={currentPage}
                         hasPrevPage={listProduct.hasPrevPage}
