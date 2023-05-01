@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
     .inputform{
         /* width: 50%; */
         .mb-3{
-            .form-control {
+            .form-control, .form-select {
                 width: 80%;
                 font-size: 14px;
             }
