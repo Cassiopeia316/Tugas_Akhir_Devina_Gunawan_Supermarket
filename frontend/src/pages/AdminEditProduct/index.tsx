@@ -8,15 +8,15 @@ import { useAppDispatch } from '@store';
 import { statusActions } from '@store/status';
 import { CategoryResponse, GetCategoryListService } from '@services/Category/list';
 import { GetProductListService } from '@services/Product/list';
-import { Product } from '@models/product';
-import { EditProductService } from '@services/Product/edit';
+import { EditProductService, Params } from '@services/Product/edit';
+import { GetShelfListService, ShelfResponse } from '@services/Location/list';
 
-type Params = {
+type RequestParams = {
     productId :string;
 }
 
 const AdminEditProduct: React.FC = () => {
-    const {productId} = useParams<Params>()
+    const {productId} = useParams<RequestParams>()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
@@ -24,19 +24,21 @@ const AdminEditProduct: React.FC = () => {
         data: []
     })
 
-    useEffect(() => {
-        const fetchData = async () =>{
-            try{
-                const res = await dispatch(GetCategoryListService()).unwrap() 
-                if (res) setlistCategory(res)
-            } catch(err) {
-                dispatch(statusActions.setError((err as Error).message))
-            }
-        }
-       fetchData()
-    }, [dispatch])
+    const [listShelfLocation, setlistShelfLocation] = useState<ShelfResponse>({
+        data: []
+    })
 
-    const [productInfo, setProductInfo] = useState<Product>({
+    // const [editProductFormParams, seteditProductFormParams] = useState<Params>({
+    //     id: String(productId),
+    //     name : "", 
+    //     description : "",
+    //     category_id : "", 
+    //     shelf_location_id : "",
+    //     price : 0,
+    //     stock : 0
+    // })
+
+    const [editProductFormParams, seteditProductFormParams] = useState<Params>({
         id: productId || "",
         category_id: "",
         code : "",
@@ -51,34 +53,89 @@ const AdminEditProduct: React.FC = () => {
         },
         shelf : {
             id: "",
-            floor : 0,
-            aisle : 0,
-            position : ""
+            elabel_code: "",
+            product_name: ""
         }
     })
+    console.log(editProductFormParams)
+
     useEffect(() => {
         const fetchData = async () =>{
             try{
-                const request = {
-                    product_id: productId,
-                    offset: 1,
-                    limit: 1
-                }
-                const res = await dispatch(GetProductListService(request)).unwrap()
-                if (res) setProductInfo(res.data[0])
+                const res = await dispatch(GetShelfListService()).unwrap() // [....]
+                if (res) setlistShelfLocation(res)
             } catch(err) {
                 dispatch(statusActions.setError((err as Error).message))
             }
         }
        fetchData()
-    }, [dispatch, productId])
+    }, [dispatch])
+
+    useEffect(() => {
+        const fetchData = async () =>{
+            try{
+                const res = await dispatch(GetCategoryListService()).unwrap() 
+                if (res) setlistCategory(res)
+            } catch(err) {
+                dispatch(statusActions.setError((err as Error).message))
+            }
+        }
+       fetchData()
+    }, [dispatch])
+
+    // const [productInfo, setProductInfo] = useState<Product>({
+    //     id: productId || "",
+    //     category_id: "",
+    //     code : "",
+    //     description : "",
+    //     name : "",
+    //     price : 0,
+    //     shelf_location_id : "",
+    //     stock: 0,
+    //     category: {
+    //         id: "",
+    //         name : ""
+    //     },
+    //     shelf : {
+    //         id: "",
+    //         elabel_code: ""
+    //     }
+    // })
+    // useEffect(() => {
+    //     const fetchData = async () =>{
+    //         try{
+    //             const request = {
+    //                 product_id: productId,
+    //                 offset: 1,
+    //                 limit: 1
+    //             }
+    //             const res = await dispatch(GetProductListService(request)).unwrap()
+    //             if (res) setProductInfo(res.data[0])
+    //         } catch(err) {
+    //             dispatch(statusActions.setError((err as Error).message))
+    //         }
+    //     }
+    //    fetchData()
+    // }, [dispatch, productId])
+
+    // const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    //     e.preventDefault()
+    //     try{
+    //         await dispatch(EditProductService(productInfo)).unwrap()
+    //         navigate(adminRoutes.PRODUCT_LIST_ADMIN_PAGE)
+    //     } catch(err) {
+    //         console.log(err)
+    //         dispatch(statusActions.setError((err as Error).message))
+    //     }
+    // }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-            await dispatch(EditProductService(productInfo)).unwrap()
+            await dispatch(EditProductService(editProductFormParams)).unwrap()
             navigate(adminRoutes.PRODUCT_LIST_ADMIN_PAGE)
         } catch(err) {
+            console.log(err)
             dispatch(statusActions.setError((err as Error).message))
         }
     }
@@ -86,11 +143,98 @@ const AdminEditProduct: React.FC = () => {
     const onChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { id, value } = (e.currentTarget as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)
         
-        setProductInfo(prev => ({
-            ...prev,
-            [id]: value,
-        }))
+        // seteditProductFormParams(prev => ({
+        //     ...prev,
+        //     [id]: value,
+        // }))
+
+        switch (id){
+            case "name":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    name: value,
+                }))
+                console.log(value)
+                break
+            case "description":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    description: value,
+                }))
+                console.log(value)
+                break
+            case "category":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    category_id: value,
+                }))
+                console.log(value)
+                break
+            case "shelf":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    shelf_location_id: value,
+                }))
+                console.log(value)
+                break
+            case "price":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    price: Number(value),
+                }))
+                console.log(value)
+                break
+            case "stock":
+                seteditProductFormParams((prev) => ({
+                    ...prev,
+                    stock: Number(value),
+                }))
+                console.log(value)
+                break
+            
+        }
     }
+
+    useEffect(() => {
+        const fetchData = async () =>{
+            try{
+                const request = {
+                    product_id: productId,
+                    offset: 1,
+                    limit: 1,
+                    search: ""
+                }
+                console.log(request)
+                const res = await dispatch(GetProductListService(request)).unwrap()
+                // if (res) setlistProduct(res)
+                console.log(res)
+                if (res){
+                    const productData = res.data[0]
+                    console.log(productData)
+                    // setProductInfo(res.data[0])
+                    seteditProductFormParams((prev) => ({
+                        ...prev,
+                        id: String(productId),
+                        name : productData.name, 
+                        code : productData.code,
+                        description : productData.description,
+                        category_id : productData.category.id, 
+                        shelf_location_id : productData.shelf.id,
+                        price : productData.price,
+                        stock : productData.stock,
+                        category : productData.category,
+                        shelf : productData.shelf
+                    }))
+                
+                }
+                dispatch(statusActions.setLoading(false))
+            
+            } catch(err) {
+                dispatch(statusActions.setError((err as Error).message))
+            }
+        }
+       fetchData()
+    }, [dispatch, productId])
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -104,7 +248,7 @@ const AdminEditProduct: React.FC = () => {
                     <Form.Label>Product Name</Form.Label>
                     <InputField type="text"
                                 id="name"
-                                value={productInfo.name} 
+                                value={editProductFormParams.name} 
                                 onChange = {onChange}
                                 />
                 </Form.Group>
@@ -112,8 +256,9 @@ const AdminEditProduct: React.FC = () => {
                 <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
                     <Form.Label>Product Code</Form.Label>
                     <InputField type="text"
-                                id="name"
-                                value={productInfo.code} 
+                                id="productcode"
+                                value={editProductFormParams?.code}
+                                // onChange = {onChange} 
                                 disabled
                                 />
                 </Form.Group>
@@ -122,7 +267,7 @@ const AdminEditProduct: React.FC = () => {
                 <Form.Label>Description</Form.Label>
                     <textarea className="form-control" 
                                     id="description" 
-                                    value={productInfo.description}
+                                    value={editProductFormParams.description}
                                     onChange={onChange}
                                     >
                     </textarea>
@@ -133,8 +278,8 @@ const AdminEditProduct: React.FC = () => {
                     <Form.Select id="category"
                                 aria-label="Default select example" 
                                 onChange={onChange}
-                                placeholder="Select Category">
-                        <option disabled>{productInfo.category?.name}</option>
+                                placeholder={editProductFormParams.category?.name}>
+                        <option disabled>{editProductFormParams.category?.name}</option>
                         {
                             listCategory.data.map((data => (
                                 <option value={data.id} >{data.name}</option>
@@ -149,7 +294,7 @@ const AdminEditProduct: React.FC = () => {
                             id="stock"
                             onChange={onChange}
                             placeholder="Enter Product Stock"   
-                            value={productInfo.stock}
+                            value={editProductFormParams.stock}
                             />
                 </Form.Group>
 
@@ -158,18 +303,32 @@ const AdminEditProduct: React.FC = () => {
                     <InputField type="text"
                                 id="price"
                                 onChange={onChange} 
-                                value={productInfo.price}  
+                                value={editProductFormParams.price}  
                             />
                 </Form.Group>
 
-                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                {/* <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
                 <Form.Label>Shelf Location</Form.Label>
                 <InputField type="text"
                             id="shelf"
                             onChange={onChange}
                             placeholder="Select Shelf Location"   
-                            value={productInfo.shelf?.aisle}
+                            value={productInfo.shelf?.elabel_code}
                             />
+                </Form.Group> */}
+                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                    <Form.Label>Shelf Location</Form.Label>
+                    <Form.Select id="shelf"
+                                aria-label="Default select example" 
+                                onChange={onChange}
+                                placeholder="Select Shelf Location">
+                        <option disabled>{editProductFormParams.shelf?.elabel_code}</option>
+                        {
+                            listShelfLocation.data.map((data => (
+                                <option value={data.id} >{data.elabel_code}</option>
+                            )))
+                        }
+                    </Form.Select>
                 </Form.Group>
 
                 <ActionButton>
@@ -188,7 +347,7 @@ const AdminEditProduct: React.FC = () => {
                         <Button variant="secondary" onClick={handleClose}>
                             Cancel
                         </Button>
-                        <DeleteButton variant="primary" type="submit">Delete</DeleteButton>
+                        {/* <DeleteButton variant="primary" type="submit">Delete</DeleteButton> */}
                     </Modal.Footer>
                 </DeleteModal>
             </Form>
