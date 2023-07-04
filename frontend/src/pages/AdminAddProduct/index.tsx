@@ -8,6 +8,7 @@ import { useAppDispatch } from '@store';
 import { CreateProductRequest, CreateProductService } from '@services/Product/create'
 import { statusActions } from '@store/status';
 import { CategoryResponse, GetCategoryListService } from '@services/Category/list';
+import { GetShelfListService, ShelfResponse } from '@services/Location/list';
 
 const AdminAddProduct: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -92,6 +93,23 @@ const AdminAddProduct: React.FC = () => {
        fetchData()
     }, [dispatch])
     
+    const [listShelfLocation, setlistShelfLocation] = useState<ShelfResponse>({
+        data: []
+    })
+
+    useEffect(() => {
+        const fetchData = async () =>{
+            try{
+                const res = await dispatch(GetShelfListService()).unwrap() // [....]
+                if (res) setlistShelfLocation(res)
+                // console.log(res)
+            } catch(err) {
+                dispatch(statusActions.setError((err as Error).message))
+            }
+        }
+       fetchData()
+    }, [dispatch])
+
     return (
         <Wrapper>
             <Title>Add Product Form</Title>
@@ -147,13 +165,28 @@ const AdminAddProduct: React.FC = () => {
                             />
                 </Form.Group>
 
-                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                {/* <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
                 <Form.Label>Shelf Location</Form.Label>
                 <InputField type="text"
                             id="shelf"
                             onChange={onChange}
                             placeholder="Select Shelf Location"   
                             />
+                </Form.Group> */}
+
+                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                    <Form.Label>Shelf Location</Form.Label>
+                    <Form.Select id="shelf"
+                                aria-label="Default select example" 
+                                onChange={onChange}
+                                placeholder="Select Shelf Location">
+                        <option disabled>Select Shelf Location</option>
+                        {
+                            listShelfLocation.data.map((data => (
+                                <option value={data.id} >{data.elabel_code}</option>
+                            )))
+                        }
+                    </Form.Select>
                 </Form.Group>
 
                 <ActionButton>
