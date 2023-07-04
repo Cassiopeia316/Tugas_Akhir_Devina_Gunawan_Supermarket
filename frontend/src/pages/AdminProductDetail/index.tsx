@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Wrapper, Title, ActionButton, CancelButton, EditButton} from './AdminProductDetail.styles'
+import { Wrapper, Title, ActionButton, CancelButton, EditButton, InputOneRow, LabelandInput, FirstLabelandInput} from './AdminProductDetail.styles'
 import { Form } from 'react-bootstrap';
 import { InputField } from '@components/Input/Input.styles';
 import { adminRoutes } from '@constants/route';
@@ -28,7 +28,8 @@ const AdminProductDetail: React.FC = () => {
                 const request = {
                     product_id: productId,
                     offset: 1,
-                    limit: 1
+                    limit: 1,
+                    search: ""
                 }
                 const res = await dispatch(GetProductListService(request)).unwrap()
                 if (res) setlistProduct(res)
@@ -84,7 +85,7 @@ const AdminProductDetail: React.FC = () => {
                                 />
                 </Form.Group>
                 <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
-                    <Form.Label>Price (Rp)</Form.Label>
+                    <Form.Label>Normal Price (Rp)</Form.Label>
                     <InputField type="text"
                                 id="productcode"
                                 value={listProduct.data[0]?.price} 
@@ -92,12 +93,69 @@ const AdminProductDetail: React.FC = () => {
                                 />
                 </Form.Group>
                 <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
-                    <Form.Label>Shelf Location</Form.Label>
+                    <Form.Label>Promo Price(Rp)</Form.Label>
                     <InputField type="text"
                                 id="productcode"
-                                value={listProduct.data[0]?.shelf.aisle} 
+                                value={listProduct.data[0]?.promo_price == 0 ? ("-") : (listProduct.data[0]?.promo_price)} 
                                 disabled
                                 />
+                </Form.Group>
+                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                    <Form.Label>Promo Description</Form.Label>
+                    <InputField type="text"
+                                id="productcode"
+                                value={listProduct.data[0]?.promo_price == 0 ? ("-") : (listProduct.data[0]?.description_promo)} 
+                                disabled
+                                />
+                </Form.Group>
+                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                    <Form.Label>Price after Promo (Rp)</Form.Label>
+                    <InputField type="text"
+                                id="productcode"
+                                value={listProduct.data[0]?.price_after_promo == listProduct.data[0]?.price ? ("-") : (listProduct.data[0]?.price_after_promo)} 
+                                disabled
+                                />
+                </Form.Group>
+                <Form.Group className="mb-3 d-flex align-items-center justify-content-between">
+                    <Form.Label>Shelf Location</Form.Label>
+                    <InputOneRow>
+                        <FirstLabelandInput>
+                            <p>Aisle Number</p>
+                            <InputField type="text"
+                                        id="shelfaisle"
+                                        value={listProduct.data[0]?.shelf.elabel_code.slice(0,2)}
+                                        disabled
+                                        className="smallinput"
+                                        />
+                        </FirstLabelandInput>
+                        <LabelandInput>
+                            <p>Position</p>
+                            <InputField type="text"
+                                    id="shelfposition"
+                                    value={listProduct.data[0]?.shelf.elabel_code.slice(2,3) === "R" ? ("Right") : ("Left")} 
+                                    disabled
+                                    className="smallinput"
+                                    />
+                        </LabelandInput>
+                        <LabelandInput>
+                            <p>Column</p>
+                            <InputField type="text"
+                                    id="shelfcolumn"
+                                    value={listProduct.data[0]?.shelf.elabel_code.slice(4,6)}
+                                    disabled
+                                    className="smallinput"
+                                    />
+                        </LabelandInput>
+                        <LabelandInput>
+                            <p>Row</p>
+                            <InputField type="text"
+                                    id="shelfrow"
+                                    value={listProduct.data[0]?.shelf.elabel_code.slice(7)}
+                                    disabled
+                                    className="smallinput"
+                                    />
+                        </LabelandInput>
+                    </InputOneRow>
                 </Form.Group>
                 <ActionButton>
                     <CancelButton to={adminRoutes.PRODUCT_LIST_ADMIN_PAGE}>Cancel</CancelButton>

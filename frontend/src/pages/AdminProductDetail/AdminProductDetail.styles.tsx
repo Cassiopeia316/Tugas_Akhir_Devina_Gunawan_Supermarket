@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Button } from 'react-bootstrap';
 import { Link } from "react-router-dom"
 
 export const Wrapper = styled.div`
@@ -14,15 +13,36 @@ export const Wrapper = styled.div`
         /* width: 50%; */
         .mb-3{
             .form-control, .form-select {
-                color: #737373;
+                color: black;
+                background-color: #f9f8f8;
                 width: 80%;
                 font-size: 14px;
             }
             textarea{
                 resize: none;
             }
+            .smallinput{
+                width: 100%;
+            }
         }
     }
+`
+export const InputOneRow = styled.div`
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+`
+
+export const LabelandInput = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+`
+export const FirstLabelandInput = styled.div`
+    width: calc(100% - 20px);
+    display: flex;
+    flex-direction: column;
 `
 export const Title = styled.h6`
     text-align: center;
