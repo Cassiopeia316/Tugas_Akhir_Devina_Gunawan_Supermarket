@@ -12,12 +12,14 @@
     <body>
         <div class="allcontent">
             <div class="container">
+                <p class="promotitle"> PROMO {{ description_promo }}</p>  
                 <p class="title">{{ product_name }}</p>  
-                <p class="category">{{ category_name }}</p> 
+                <p class="category">{{ product_category }}</p> 
                 <h5>Rp. {{ product_price }}</h5>
+                <h4>Rp. {{ product_price_after_promo }}</h4>
             </div>
             <div class="rightcontainer">
-                <img src="http://localhost:5000/v1/products/image/{{ image }}"  class="imageqr"/> 
+                <img src="http://localhost:5000/v1/promosproductsmapping/image/{{ imagepromoqr }}"  class="imageqr"/> 
             </div>
         </div>
     </body>

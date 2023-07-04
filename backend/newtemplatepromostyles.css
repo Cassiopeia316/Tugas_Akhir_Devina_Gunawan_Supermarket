@@ -1,0 +1,50 @@
+body {
+    position: relative;
+}
+
+body > .allcontent > .container {
+    width: 60%;
+}
+
+.promotitle{
+    font-size: 14px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+.title{
+    font-weight: bold;
+    font-size: 20px;
+    position: absolute;
+    top: -3;
+}
+
+.category{
+    font-size: 14px;
+    position: absolute;
+    top: 25;
+}
+
+h5{
+    /* font-weight: bold; */
+    font-size: 12px;
+    text-decoration: line-through;
+    position: absolute;
+    top: 40;
+}
+
+h4{
+    font-size: 24px;
+    position: absolute;
+    top: 40;
+    left: 50;
+}
+
+.allcontent > .rightcontainer > .imageqr{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    right: 0;
+    top: 0;
+} 
