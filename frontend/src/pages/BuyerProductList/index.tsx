@@ -26,6 +26,7 @@ const BuyerProductList: React.FC = () => {
                 const request = {
                     offset: currentPage,
                     limit: LIMIT,
+                    search: ""
                 }
                 const res = await dispatch(GetProductListService(request)).unwrap() // [....]
                 // console.log(res)
@@ -72,7 +73,7 @@ const BuyerProductList: React.FC = () => {
                                     <td>{data.code}</td>
                                     <td>{data.category.name}</td>
                                     <td>{data.price}</td>
-                                    <td>floor = {data.shelf.floor}, aisle = {data.shelf.aisle}, position = {data.shelf.position}</td>
+                                    <td>aaa</td>
                                     <td>{data.stock}</td>
                                     <td><i className="fa-solid fa-magnifying-glass"></i></td>
                                 </tr> 
