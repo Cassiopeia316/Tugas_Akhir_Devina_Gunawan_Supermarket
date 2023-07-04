@@ -18,10 +18,11 @@ class Product(db.Model):
     category = db.relationship("Category")
     category_id = db.Column(UUID(as_uuid=True), db.ForeignKey(Category.id))
     shelf_location = db.relationship("ShelfLocation")
-    shelf_location_id = db.Column(UUID(as_uuid=True), db.ForeignKey(ShelfLocation.id))
+    shelf_location_id = db.Column(UUID(as_uuid=True), db.ForeignKey(ShelfLocation.id), unique=True)
     price = db.Column(db.Integer)
     stock = db.Column(db.Integer)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    # created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime())
 
 
     def __init__(self, code, name, description, category_id, shelf_location_id, price, stock):
@@ -32,6 +33,7 @@ class Product(db.Model):
         self.shelf_location_id = shelf_location_id
         self.price = price
         self.stock = stock
+        self.created_at = datetime.utcnow()
 
     # def __repr__(self):
     #     return '<id {}>'.format(self.id)

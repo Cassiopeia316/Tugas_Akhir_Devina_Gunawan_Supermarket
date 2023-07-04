@@ -11,6 +11,8 @@ class PromoProductMapping(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     promo_id = db.Column(UUID(as_uuid=True), db.ForeignKey(Promo.id))
     product_id = db.Column(UUID(as_uuid=True), db.ForeignKey(Product.id))
+    promo = db.relationship("Promo")
+    product = db.relationship("Product")
 
     def __init__(self, promo_id, product_id):
         self.promo_id = promo_id
