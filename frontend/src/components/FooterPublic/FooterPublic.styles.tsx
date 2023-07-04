@@ -7,6 +7,11 @@ export const Wrapper = styled.div`
     color: white;
     font-weight: light !important;
     font-size: 12px;
+    @media screen and (max-width: 910px){
+        p{
+            font-size: 10px;
+        }
+    }
 `
 
 export const Content= styled.div`
@@ -22,6 +27,9 @@ export const Left= styled.div`
     width: 70%;
     display: flex;
     align-items: center;
+    @media screen and (max-width: 910px){
+        width: 90%;
+    }
 `
 export const Middle= styled.div`
     width: 60%;

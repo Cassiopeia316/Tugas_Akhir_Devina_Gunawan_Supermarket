@@ -17,12 +17,12 @@ const NavbarPublic: React.FC = () => {
                     <Menu to={routes.PRODUCTLIST_PAGE}>
                         Product
                     </Menu>
-                    <Menu to={routes.LANDING_PAGE}>
+                    <Menu to={routes.ABOUTUS_PAGE}>
                         About Us
                     </Menu>
-                    <Menu to={routes.LANDING_PAGE}>
+                    {/* <Menu to={routes.LANDING_PAGE}>
                         Help
-                    </Menu>
+                    </Menu> */}
                 </Left>
                 <Signin to={routes.SIGNIN_PAGE}>
                     Sign In

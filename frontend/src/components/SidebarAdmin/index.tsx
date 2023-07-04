@@ -18,18 +18,14 @@ const SidebarAdmin: React.FC = () => {
                     <i className="fa-solid fa-box"></i>
                     <p>E-label</p>
                 </Menu>
-                <Menu to={adminRoutes.PRODUCT_LIST_ADMIN_PAGE}>
+                <Menu to={adminRoutes.PROMO_HISTORY_PAGE}>
                     <i className="fa-solid fa-percent"></i>
                     <p>Promo</p>
                 </Menu>
-                <Menu to={adminRoutes.PRODUCT_LIST_ADMIN_PAGE}>
-                    <i className="fa-solid fa-user-plus"></i>
-                    <p>Tenant</p>
-                </Menu>
-                <Menu to={adminRoutes.PRODUCT_LIST_ADMIN_PAGE}>
+                {/* <Menu to={adminRoutes.PRODUCT_LIST_ADMIN_PAGE}>
                     <i className="fa-solid fa-circle-info"></i>
                     <p>Help</p>
-                </Menu>
+                </Menu> */}
             </NavigationMenu>
         </Wrapper>
     )    
