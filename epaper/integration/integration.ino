@@ -2,8 +2,8 @@
 #include <PubSubClient.h>
 
 // wifi setup
-const char* ssid = "kelvin hotspot";
-const char* password = "shinobukocho";
+const char* ssid = "Gunafi";
+const char* password = "GunaFam2002";
 
 // mqtt setup
 const char* MQTT_SERVER = "test.mosquitto.org";

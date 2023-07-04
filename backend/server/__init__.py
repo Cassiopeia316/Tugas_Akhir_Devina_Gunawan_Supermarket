@@ -14,8 +14,12 @@ import jwt
 
 DIR = os.getcwd()
 JINJA_TEMPLATE_STRING = open("newtemplate.html", 'r').read()
+JINJA_TEMPLATE_STRING_PROMO = open("newtemplateforpromo.html", 'r').read()
 
 load_dotenv()
+
+css_file = 'newtemplatestyles.css'
+css_file_promo = 'newtemplatepromostyles.css'
 
 app = Flask(__name__)
 app.config['MQTT_TOPIC'] = "supermarket"
@@ -28,6 +32,15 @@ app.config['IMGKIT_CONFIG'] = {
   'quiet': '',
   "width": 296,
   "height": 128,
+  "user-style-sheet" : css_file
+}
+app.config['SERVICE_TEMPLATE_PROMO'] = Template(JINJA_TEMPLATE_STRING_PROMO)
+app.config['IMAGE_CONFIG_PROMO'] = imgkit.config(wkhtmltoimage=DIR + '/wkhtmltopdf/bin/wkhtmltoimage.exe')
+app.config['IMGKIT_CONFIG_PROMO'] = {
+  'quiet': '',
+  "width": 296,
+  "height": 128,
+  "user-style-sheet" : css_file_promo
 }
 app.config['SECRET_KEY'] = 'nxP0ym7rTGHJ4WguR8rh' #untuk decrypt JWT token
 
