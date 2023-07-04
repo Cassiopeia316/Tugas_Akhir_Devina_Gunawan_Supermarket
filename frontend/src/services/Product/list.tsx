@@ -12,6 +12,7 @@ import { Pagination } from "@models/pagination"
 interface Request {
     offset: number
     limit: number
+    search: string
 }
 
 export type Response = {
