@@ -26,14 +26,15 @@ def create_category():
     
     if request.method == "GET":
         # service (yg bawah) ---------------------------
-        query = Category.query.all()
+        query = Category.query
+        categorylist = query.order_by(Category.name)
 
         # serializer (yg bawah) ------------------------
         # response = []
         response = {
             "data": []
         }
-        for category in query:
+        for category in categorylist:
             response["data"].append({
                 "id": category.id,
                 "name": category.name,
