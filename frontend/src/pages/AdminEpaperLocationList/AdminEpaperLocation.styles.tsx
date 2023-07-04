@@ -13,16 +13,21 @@ export const Title = styled.h3`
     justify-content: center;
 `
 
-export const AddCategoryPosition = styled.div`
+export const AddEpaperPosition = styled.div`
     width: 90%;
     margin: 0 auto;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p{
+        font-weight: 700;
+        font-size: 18px;
+    }
 `
-export const AddCategory = styled(Link)`
+export const AddLocation = styled(Link)`
     text-align: center;
     font-size: 14px;
     padding: 8px 10px;
-    margin-left: auto;
     justify-content: center;
     background-color: #F5911D;
     border-color: #F5911D;
@@ -41,7 +46,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px auto;
-    align-items: flex-end;
+    align-items: center;
 
     table {
         width: 100%;
@@ -60,7 +65,18 @@ export const Content = styled.div`
 `
 
 export const SupermarketLayout = styled(Image)`
-    width: 50%;
     display: flex;
     justify-content: center;
+`
+
+export const PaginationContent = styled.div`
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+`
+
+export const ViewDetail = styled(Link)`
+    
 `
