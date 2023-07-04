@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Link } from "react-router-dom"
 
 export const Wrapper = styled.div`
@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
 `
 
 export const Content = styled.div`
-    width: 100%;
+    width: 95%;
     /* height: 62vh; */
     overflow-y: auto;
     display: flex;
@@ -16,9 +16,10 @@ export const Content = styled.div`
     margin: 20px auto;
 
     table {
-        width: 90%;
+        max-width: 90%;
         margin: 0 auto;
         border-color: #d1960d;
+        /* overflow-x: auto; */
     }
     thead{
         background-color: #FDD87F;
@@ -39,7 +40,7 @@ export const Title = styled.h3`
     justify-content: center;
 `
 
-export const SearchProduct = styled.div`
+export const SearchProduct = styled(Form.Group)`
     width: 90%;
     margin: 0 auto;
     font-weight: bold;
@@ -47,7 +48,33 @@ export const SearchProduct = styled.div`
     flex-direction: row;
     align-items: center;
     .searchlabel{
-        width: 15%;
+        /* width: 15%; */
+    }
+`
+
+export const Input = styled(Form.Control)`
+    background-color: #E0DFDF;
+    margin-right: 20px;
+    
+    &:focus{
+        box-shadow: none;
+        outline: none;
+        border-color: #8A8A8A;
+    }
+`
+
+export const SubmitButton = styled(Button)`
+    border-radius: 8px;
+    background-color: #F5BB2D;
+    border-color: #F5BB2D;
+    /* font-weight: 800; */
+    padding: 8px 15px;
+    color: #FFFFFF !important;
+    transition: 0.5s;
+
+    &:hover{
+        background-color: #b36a16 !important;
+        border-color: #F5BB2D;
     }
 `
 
@@ -88,7 +115,15 @@ export const CategoryButton = styled(Button)`
     white-space: nowrap;
     font-size: 14px;
     &:hover{
-        background-color: #5c661e !important;
+        background-color: #7f893e !important;
+        border-color: #7D892F;
+    }
+    &:focus{
+        background-color: #667311 !important;
+        border-color: #7D892F;
+    }
+    &:active{
+        background-color: #2d3113 !important;
         border-color: #7D892F;
     }
 `
