@@ -10,8 +10,8 @@ connection = psycopg2.connect(
 cursor = connection.cursor()
 
 alter_table_command = """
-ALTER TABLE "products"
-ADD COLUMN updated_at TIMESTAMP;
+ALTER TABLE "shelf_locations"
+ADD COLUMN created_at TIMESTAMP;
 """
 
 cursor.execute(alter_table_command)

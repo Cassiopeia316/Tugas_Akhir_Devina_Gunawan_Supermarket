@@ -10,8 +10,8 @@ connection = psycopg2.connect(
 cursor = connection.cursor()
 
 alter_table_command = """
-ALTER TABLE "Update Table Results"
-DROP COLUMN price;
+ALTER TABLE "promos"
+DROP COLUMN "type";
 """
 
 cursor.execute(alter_table_command)
