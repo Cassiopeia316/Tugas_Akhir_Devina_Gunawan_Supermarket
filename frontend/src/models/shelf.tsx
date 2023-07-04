@@ -2,7 +2,6 @@ import { uuid } from "./types"
 
 export type shelf = {
     id: uuid
-    floor : number
-    aisle : number
-    position : string
+    elabel_code: string
+    product_name: string
 }

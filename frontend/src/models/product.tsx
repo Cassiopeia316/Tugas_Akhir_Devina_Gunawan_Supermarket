@@ -13,4 +13,7 @@ export type Product = {
     stock: number
     category: category
     shelf : shelf
+    description_promo : string
+    price_after_promo : number
+    promo_price: number
 }
